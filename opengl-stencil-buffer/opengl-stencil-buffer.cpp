@@ -1,4 +1,4 @@
-#define STB_IMAGE_IMPLEMENTATION
+/* #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #include <windows.h>
 #include <GL/gl.h>
@@ -89,30 +89,43 @@ void init_draw_images() {
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
-    glEnable(GL_DEPTH_TEST);
-    glDepthFunc(GL_LESS);
-    glEnable(GL_STENCIL_TEST);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE); // Enable color writes
+    // glStencilFunc(GL_EQUAL, 1, 1);
     glStencilFunc(GL_ALWAYS, 1, 1);
     glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
-    glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE); // Disable color writes
-    glDepthMask(GL_TRUE); // Make sure the depth mask is enabled
-
-    // 1. Composite Depth (Image 1 & 2)
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     glDrawPixels(imageWidth, imageHeight, GL_DEPTH_COMPONENT, GL_FLOAT, image1Depth);
-    glDrawPixels(imageWidth, imageHeight, GL_DEPTH_COMPONENT, GL_FLOAT, image2Depth);
-
-    // 2. Composite Color (Image 1 & 2)
-    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE); // Enable color writes
-    glStencilFunc(GL_EQUAL, 1, 1);
-    glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
     glDisable(GL_DEPTH_TEST);
     glDrawPixels(imageWidth, imageHeight, GL_RGB, GL_UNSIGNED_BYTE, image1Color);
+
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+    glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE); // Enable color writes
+    // glStencilFunc(GL_EQUAL, 1, 1);
+    glStencilFunc(GL_ALWAYS, 1, 1);
+    glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
+    glDrawPixels(imageWidth, imageHeight, GL_DEPTH_COMPONENT, GL_FLOAT, image2Depth);
+    glDisable(GL_DEPTH_TEST);
     glDrawPixels(imageWidth, imageHeight, GL_RGB, GL_UNSIGNED_BYTE, image2Color);
 
-    glDisable(GL_STENCIL_TEST);
 
-    glutSwapBuffers();
+
+    //glEnable(GL_STENCIL_TEST);
+    //glStencilFunc(GL_ALWAYS, 1, 1);
+    //glColorMask(GL_FALSE, GL_FALSE, GL_FALSE, GL_FALSE); // Disable color writes
+    //glDepthMask(GL_TRUE); // Make sure the depth mask is enabled
+
+    // 1. Composite Depth (Image 1 & 2)
+
+    // 2. Composite Color (Image 1 & 2)
+    //glStencilOp(GL_KEEP, GL_KEEP, GL_KEEP);
+    //glDisable(GL_DEPTH_TEST);
+
+    //glDisable(GL_STENCIL_TEST);
+
+    //glutSwapBuffers();
 }
 
 void reshape(int width, int height) {
@@ -135,10 +148,10 @@ int main(int argc, char** argv) {
 
     // ... (Your initialization code: load images, set OpenGL parameters, etc.)
 
-    init_draw_images();
+    init_load_images();
 
     glutDisplayFunc(display);
     glutReshapeFunc(reshape); // Add reshape callback if needed
     glutMainLoop();
     return 0;
-}
+} */
